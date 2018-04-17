@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static com.incesoft.robotspeech.shenghan.ShengHanApi1.ShengHanApi2.ShengHanApi;
-import static com.incesoft.robotspeech.shenghan.SimpleFacotory.msg;
 
 
 public class StreamRecogServlet {
@@ -21,7 +20,6 @@ public class StreamRecogServlet {
             long code1 = ShengHanApi.recognizer_createSession(ir.getPointer(), SimpleFacotory._context_ptr, 16000);
             msg(code1, "recognizer_createSession");
             sessionId= ir.getPointer().getLong(0);
-            System.out.println("sessionId = " + sessionId);
 
             ShengHanApi.recognizer_startSession(sessionId, 0);
             int len = 0;
@@ -43,6 +41,14 @@ public class StreamRecogServlet {
         }
     }
 
+
+    private static void msg(long errCode, String msgStr) {
+        if (errCode != 0L) {
+            System.out.println(msgStr + " error! code:" + errCode);
+        } else {
+            System.out.println(msgStr + " success.");
+        }
+    }
 
 
 }
