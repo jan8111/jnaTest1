@@ -25,7 +25,9 @@ public class StreamRecogServlet {
             int len = 0;
             byte[] bb = new byte[3200];
             while ((len = is.read(bb)) != -1) {
-                ShengHanApi.recognizer_resumeSession(sessionId, bb, len);
+                long resumeFlag = ShengHanApi.recognizer_resumeSession(sessionId, bb, len);
+                System.out.println("resumeFlag = " + resumeFlag);
+                Thread.sleep(100);
             }
             ShengHanApi.recognizer_stopSession(sessionId);
 

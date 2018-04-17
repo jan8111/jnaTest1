@@ -28,21 +28,42 @@ public class ShengHanApi1 {
 
         long recognizer_setContextDecoderParam(long context_ptr, String s, UnivoiceDecoderParam.ByReference univoiceDecoderParam);
 
+        long recognizer_setContextVadParam(long context_ptr, UnivoiceVadParam.ByReference univoiceVadParam);
+
         long recognizer_setContextRescore(long context_ptr, String s, String s1);
 
         long recognizer_createSession(Pointer pointer,long context_ptr, int i);
 
-        void recognizer_startSession(long sessionId, int i);
+        long recognizer_startSession(long sessionId, int i);
 
-        void recognizer_resumeSession(long sessionId, byte[] bb, int len);
+        long recognizer_resumeSession(long sessionId, byte[] bb, int len);
 
-        void recognizer_stopSession(long sessionId);
+        long recognizer_stopSession(long sessionId);
 
         void recognizer_destroySession(long sessionId);
 
         long recognizer_getSessionResStr(long sessionId,Pointer pointer);
     }
 
+
+    
+
+    public static class UnivoiceVadParam  extends Structure {
+        @Override
+        protected List<String> getFieldOrder() {
+            return Arrays.asList("vad_type","vad_threshold","vad_ms_lead_sil_timeout","vad_ms_beg_acc_sph","vad_ms_beg_acc_sph_lead_sil","vad_ms_end_cont_sie");
+        }
+
+        public static class ByReference extends UnivoiceVadParam implements Structure.ByReference{
+        }
+
+        public int   vad_type = 0;                     // 0: no vad, 1: vad_mode_1(RNN), 2: vad_mode_2(pitch)
+        public float vad_threshold = (float) 0.5;              // default: 0.5(only for vad_mode_2)
+        public int vad_ms_lead_sil_timeout = 5000;       // default: 5000 ms(only for vad_mode_1)
+        public int vad_ms_beg_acc_sph = 100;           // default: 100 ms for vad_mode_1; 200 ms for vad_mode_2
+        public int vad_ms_beg_acc_sph_lead_sil = 600;  // default: 600 ms(only for vad_mode_1)
+        public int vad_ms_end_cont_sie = 1000;          // default: 1000 ms for vad_mode_1; 500 ms for vad_mode_2
+    }
 
     public static class UnivoiceAcousticParam  extends Structure {
         @Override

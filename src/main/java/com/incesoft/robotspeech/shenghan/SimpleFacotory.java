@@ -25,11 +25,11 @@ public class SimpleFacotory {
         msg(errCode, "recognizer_addDecoder first-path");
 
 
-        errCode[0] = ShengHanApi.recognizer_addDecoder(
+       /* errCode[0] = ShengHanApi.recognizer_addDecoder(
                 "#HOT_WORD",
                 "wfst",
                 "/home/shhan/tw_model/model/HOT_WORD.dat");
-        msg(errCode, "recognizer_addDecoder HOT_WORD");
+        msg(errCode, "recognizer_addDecoder HOT_WORD");*/
 
  /*       errCode[0] = ShengHanApi.recognizer_addDecoder(
                 "second-path",
@@ -54,12 +54,22 @@ public class SimpleFacotory {
         errCode[0] = ShengHanApi.recognizer_setContextDecoderParam(_context_ptr, "first-path", getUnivoiceDecoderParam());
         msg(errCode, "recognizer_setContextDecoderParam  ");
 
+        errCode[0] = ShengHanApi.recognizer_setContextVadParam(_context_ptr,  getUnivoiceVadParam());
+        msg(errCode, "recognizer_setContextVadParam  ");
+
+
 /*        errCode[0] = ShengHanApi.recognizer_setContextRescore(_context_ptr, "first-path", "second-path");
         msg(errCode, "recognizer_setContextRescore  ");*/
 
-        errCode[0] = ShengHanApi.recognizer_attachContextDecoder(_context_ptr, "#HOT_WORD", true);
-        msg(errCode, "recognizer_attachContextDecoder #HOT_WORD");
+      /*  errCode[0] = ShengHanApi.recognizer_attachContextDecoder(_context_ptr, "#HOT_WORD", true);
+        msg(errCode, "recognizer_attachContextDecoder #HOT_WORD");*/
 
+    }
+
+    private static ShengHanApi1.UnivoiceVadParam.ByReference getUnivoiceVadParam() {
+        ShengHanApi1.UnivoiceVadParam.ByReference en = new ShengHanApi1.UnivoiceVadParam.ByReference();
+        en.vad_type=2;
+        return en;
     }
 
     private static ShengHanApi1.UnivoiceDecoderParam.ByReference getUnivoiceDecoderParam() {
@@ -84,9 +94,9 @@ public class SimpleFacotory {
 
     private static ShengHanApi1.UnivoiceAcousticParam.ByReference getUnivoiceAcousticParam() {
         ShengHanApi1.UnivoiceAcousticParam.ByReference en = new ShengHanApi1.UnivoiceAcousticParam.ByReference();
-        en.setCpu_batch_size(40);
-        en.setSq_snr_estimate(1);
-        en.setSq_clipping_dectect(1);
+        en.setCpu_batch_size(16);
+        en.setSq_snr_estimate(0);
+        en.setSq_clipping_dectect(0);
         return en;
     }
 
