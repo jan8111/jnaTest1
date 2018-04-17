@@ -6,7 +6,7 @@ import static com.incesoft.robotspeech.shenghan.ShengHanApi1.ShengHanApi2.ShengH
 
 public class SimpleFacotory {
     static long _context_ptr;
-    public static void init() {
+    public static void init(int vad_type) {
         final long[] errCode = {0L};
         System.out.println("recognizer_getVersion = " + ShengHanApi.recognizer_getVersion());
         ShengHanApi.recognizer_setWorkPath("/home/shhan/tw_model/");
@@ -54,7 +54,7 @@ public class SimpleFacotory {
         errCode[0] = ShengHanApi.recognizer_setContextDecoderParam(_context_ptr, "first-path", getUnivoiceDecoderParam());
         msg(errCode, "recognizer_setContextDecoderParam  ");
 
-        errCode[0] = ShengHanApi.recognizer_setContextVadParam(_context_ptr,  getUnivoiceVadParam());
+        errCode[0] = ShengHanApi.recognizer_setContextVadParam(_context_ptr,  getUnivoiceVadParam(vad_type));
         msg(errCode, "recognizer_setContextVadParam  ");
 
 
@@ -66,9 +66,9 @@ public class SimpleFacotory {
 
     }
 
-    private static ShengHanApi1.UnivoiceVadParam.ByReference getUnivoiceVadParam() {
+    private static ShengHanApi1.UnivoiceVadParam.ByReference getUnivoiceVadParam(int vad_type) {
         ShengHanApi1.UnivoiceVadParam.ByReference en = new ShengHanApi1.UnivoiceVadParam.ByReference();
-        en.vad_type=2;
+        en.vad_type=vad_type;
         return en;
     }
 
@@ -94,7 +94,7 @@ public class SimpleFacotory {
 
     private static ShengHanApi1.UnivoiceAcousticParam.ByReference getUnivoiceAcousticParam() {
         ShengHanApi1.UnivoiceAcousticParam.ByReference en = new ShengHanApi1.UnivoiceAcousticParam.ByReference();
-        en.setCpu_batch_size(16);
+        en.setCpu_batch_size(40);
         en.setSq_snr_estimate(0);
         en.setSq_clipping_dectect(0);
         return en;

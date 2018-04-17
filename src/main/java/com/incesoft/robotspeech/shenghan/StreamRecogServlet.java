@@ -12,35 +12,43 @@ import static com.incesoft.robotspeech.shenghan.ShengHanApi1.ShengHanApi2.ShengH
 
 
 public class StreamRecogServlet {
-    public void doTest(String pathname) throws IOException {
+    public void doTest(String pathname) {
         long sessionId = 0;
-        InputStream is = new FileInputStream(new File(pathname));
+
         try {
             LongByReference ir = new LongByReference(1);
             long code1 = ShengHanApi.recognizer_createSession(ir.getPointer(), SimpleFacotory._context_ptr, 16000);
             msg(code1, "recognizer_createSession");
             sessionId= ir.getPointer().getLong(0);
 
-            ShengHanApi.recognizer_startSession(sessionId, 0);
-            int len = 0;
-            byte[] bb = new byte[3200];
-            while ((len = is.read(bb)) != -1) {
-                long resumeFlag = ShengHanApi.recognizer_resumeSession(sessionId, bb, len);
-                System.out.println("resumeFlag = " + resumeFlag);
-                Thread.sleep(100);
-            }
-            ShengHanApi.recognizer_stopSession(sessionId);
+            doRecog(pathname, sessionId);
+            System.out.println("second.... " );
+            doRecog(pathname, sessionId);
 
-            PointerByReference  pointer2 = new PointerByReference();
-            long code2 = ShengHanApi.recognizer_getSessionResStr(sessionId,pointer2.getPointer());
-            msg(code2, "recognizer_getSessionResStr");
-            String result = pointer2.getValue().getString(0);
-            System.out.println("result = " + result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             ShengHanApi.recognizer_destroySession(sessionId);
         }
+    }
+
+    private void doRecog(String pathname, long sessionId) throws IOException, InterruptedException {
+        ShengHanApi.recognizer_startSession(sessionId, 0);
+        int len = 0;
+        byte[] bb = new byte[3200];
+        InputStream is = new FileInputStream(new File(pathname));
+        while ((len = is.read(bb)) != -1) {
+            long resumeFlag = ShengHanApi.recognizer_resumeSession(sessionId, bb, len);
+            System.out.println("resumeFlag = " + resumeFlag);
+            Thread.sleep(100);
+        }
+        ShengHanApi.recognizer_stopSession(sessionId);
+
+        PointerByReference pointer2 = new PointerByReference();
+        long code2 = ShengHanApi.recognizer_getSessionResStr(sessionId,pointer2.getPointer());
+        msg(code2, "recognizer_getSessionResStr");
+        String result = pointer2.getValue().getString(0);
+        System.out.println("result = " + result);
     }
 
 
