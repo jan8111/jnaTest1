@@ -31,11 +31,11 @@ public class SimpleFacotory {
                 "/home/shhan/tw_model/model/HOT_WORD.dat");
         msg(errCode, "recognizer_addDecoder HOT_WORD");
 
-        errCode[0] = ShengHanApi.recognizer_addDecoder(
+ /*       errCode[0] = ShengHanApi.recognizer_addDecoder(
                 "second-path",
                 "wfst-compress",
                 "/home/shhan/tw_model/model/xiaoi_hotword_test_0326_0.95_ctc.bin");
-        msg(errCode, "recognizer_addDecoder second-path");
+        msg(errCode, "recognizer_addDecoder second-path");*/
 
         LongByReference ir = new LongByReference(1);
         errCode[0]= _context_ptr = ShengHanApi.recognizer_createContext(ir.getPointer());
@@ -54,8 +54,8 @@ public class SimpleFacotory {
         errCode[0] = ShengHanApi.recognizer_setContextDecoderParam(_context_ptr, "first-path", getUnivoiceDecoderParam());
         msg(errCode, "recognizer_setContextDecoderParam  ");
 
-        errCode[0] = ShengHanApi.recognizer_setContextRescore(_context_ptr, "first-path", "second-path");
-        msg(errCode, "recognizer_setContextRescore  ");
+/*        errCode[0] = ShengHanApi.recognizer_setContextRescore(_context_ptr, "first-path", "second-path");
+        msg(errCode, "recognizer_setContextRescore  ");*/
 
         errCode[0] = ShengHanApi.recognizer_attachContextDecoder(_context_ptr, "#HOT_WORD", true);
         msg(errCode, "recognizer_attachContextDecoder #HOT_WORD");

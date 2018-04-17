@@ -5,6 +5,9 @@ import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ShengHanApi1 {
     public interface ShengHanApi2 extends Library {
         ShengHanApi2 ShengHanApi = (ShengHanApi2) Native.loadLibrary("recognizer", ShengHanApi2.class);
@@ -42,6 +45,11 @@ public class ShengHanApi1 {
 
 
     public static class UnivoiceAcousticParam  extends Structure {
+        @Override
+        protected List<String> getFieldOrder() {
+            return Arrays.asList("cpu_batch_size","sq_snr_estimate","sq_clipping_dectect");
+        }
+
         public static class ByReference extends UnivoiceAcousticParam implements Structure.ByReference{
         }
 
@@ -75,6 +83,12 @@ public class ShengHanApi1 {
     }
 
     public static class UnivoiceDecoderParam  extends Structure {
+        @Override
+        protected List<String> getFieldOrder() {
+            return Arrays.asList("lmScale","amScale","maxTSN","minTSN","beamWidth","wordBeam","wordPenalty","loopPenalty"
+                    ,"transPenalty","nBest","epsTransLimit","genPartialResult","genPartialFrame","debug","blankSkip");
+        }
+
         public static class ByReference extends UnivoiceDecoderParam implements Structure.ByReference{
         }
 
