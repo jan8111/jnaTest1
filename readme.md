@@ -1,0 +1,1 @@
+export LD_LIBRARY_PATH=/home/shhan/vad/uvoice_asr/sdk/so:$LD_LIBRARY_PATH
