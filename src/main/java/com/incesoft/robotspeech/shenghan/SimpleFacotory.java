@@ -6,7 +6,7 @@ import static com.incesoft.robotspeech.shenghan.ShengHanApi1.ShengHanApi2.ShengH
 
 public class SimpleFacotory {
     static long _context_ptr;
-    public static void init(int vad_type) {
+    public static void init() {
         final long[] errCode = {0L};
         System.out.println("recognizer_getVersion = " + ShengHanApi.recognizer_getVersion());
         ShengHanApi.recognizer_setWorkPath("/home/shhan/tw_model/");
@@ -51,12 +51,12 @@ public class SimpleFacotory {
         errCode[0] = ShengHanApi.recognizer_attachContextDecoder(_context_ptr, "first-path", false);
         msg(errCode, "recognizer_attachContextDecoder first-path");
 
-        errCode[0] = ShengHanApi.recognizer_setContextDecoderParam(_context_ptr, "first-path", getUnivoiceDecoderParam());
-        msg(errCode, "recognizer_setContextDecoderParam  ");
+        /*errCode[0] = ShengHanApi.recognizer_setContextDecoderParam(_context_ptr, "first-path", getUnivoiceDecoderParam());
+        msg(errCode, "recognizer_setContextDecoderParam  ");*/
 
-        errCode[0] = ShengHanApi.recognizer_setContextVadParam(_context_ptr,  getUnivoiceVadParam(vad_type));
+       /* errCode[0] = ShengHanApi.recognizer_setContextVadParam(_context_ptr,  getUnivoiceVadParam( ));
         msg(errCode, "recognizer_setContextVadParam  ");
-
+*/
 
 /*        errCode[0] = ShengHanApi.recognizer_setContextRescore(_context_ptr, "first-path", "second-path");
         msg(errCode, "recognizer_setContextRescore  ");*/
@@ -66,9 +66,8 @@ public class SimpleFacotory {
 
     }
 
-    private static ShengHanApi1.UnivoiceVadParam.ByReference getUnivoiceVadParam(int vad_type) {
+    private static ShengHanApi1.UnivoiceVadParam.ByReference getUnivoiceVadParam() {
         ShengHanApi1.UnivoiceVadParam.ByReference en = new ShengHanApi1.UnivoiceVadParam.ByReference();
-        en.vad_type=vad_type;
         return en;
     }
 
